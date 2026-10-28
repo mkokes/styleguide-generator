@@ -1,0 +1,255 @@
+/* App chrome. Keep these in sync with the palette in theme.ts. */
+:root {
+  --app-bg: #f7f6fb;
+  --app-surface: #ffffff;
+  --app-text: #1e1b2e;
+  --app-text-secondary: #5f5a73;
+  --app-border: #e6e3ef;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --app-bg: #16141f;
+  --app-surface: #1f1c2b;
+  --app-text: #eceaf4;
+  --app-text-secondary: #a9a4bc;
+  --app-border: #2f2b3f;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: "Inter Variable", system-ui, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+}
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--app-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--app-text);
+}
+.app-content {
+  padding: 24px 16px 48px;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-gap {
+  margin-top: 24px;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+.muted {
+  color: var(--app-text-secondary);
+}
+.small {
+  font-size: 12px;
+}
+
+/* Wizard: steps | form | preview on wide screens, stacked below 1200px. */
+.wizard {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+.wizard-steps,
+.wizard-preview {
+  position: sticky;
+  top: 88px;
+}
+.wizard-preview {
+  max-height: calc(100vh - 112px);
+  overflow: auto;
+}
+.wizard-name {
+  margin-bottom: 16px !important;
+}
+.wizard-back {
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+.wizard-nav {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--app-border);
+}
+@media (max-width: 1199px) {
+  .wizard {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+  .wizard-preview {
+    grid-column: 1 / -1;
+    position: static;
+    max-height: none;
+  }
+}
+@media (max-width: 991px) {
+  .wizard {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .wizard-steps {
+    position: static;
+  }
+}
+
+.list-items {
+  margin-top: 8px;
+}
+.rules {
+  margin-top: 32px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--app-border);
+}
+.inline-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: end;
+}
+
+.swatch {
+  display: inline-block;
+  border-radius: 4px;
+  border: 1px solid rgb(0 0 0 / 0.12);
+  flex: none;
+}
+.scales {
+  display: grid;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.scale-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.scale-name {
+  width: 80px;
+  font-size: 13px;
+  flex: none;
+}
+.scale-step {
+  width: 32px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid rgb(0 0 0 / 0.08);
+  cursor: pointer;
+  padding: 0;
+  flex: none;
+}
+.scale-step.is-overridden {
+  outline: 2px solid var(--app-text);
+  outline-offset: 1px;
+}
+.contrast-sample {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 24px;
+  border-radius: 4px;
+  font-weight: 600;
+  border: 1px solid var(--app-border);
+}
+
+.font-picker {
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  padding: 12px 16px 0;
+  margin: 0 0 16px;
+}
+.font-picker legend {
+  width: auto;
+  margin: 0;
+  border: 0;
+  padding: 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: inherit;
+}
+.font-picker-row {
+  margin-top: 12px;
+}
+.type-sample {
+  white-space: nowrap;
+}
+
+.spacing-demo {
+  margin-bottom: 16px;
+}
+.spacing-demo span {
+  background: var(--app-text-secondary);
+  opacity: 0.35;
+  border-radius: 2px;
+  min-width: 1px;
+}
+.shadow-row {
+  margin-bottom: 12px;
+}
+.shadow-demo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 40px;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 12px;
+}
+.variant-row {
+  margin-bottom: 8px;
+}
+.logo-thumb {
+  max-height: 40px;
+  max-width: 160px;
+}
+
+.file-actions {
+  margin-bottom: 8px;
+}
+.file-preview {
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+  padding: 16px;
+  max-height: 600px;
+  overflow: auto;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.route-loading {
+  display: block;
+  margin: 64px auto;
+}

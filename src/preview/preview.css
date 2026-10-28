@@ -1,0 +1,226 @@
+/* Everything inside .sgp uses only the guide's tokens (set as inline custom properties). */
+.preview-frame {
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--app-surface);
+}
+.preview-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--app-text-secondary);
+  border-bottom: 1px solid var(--app-border);
+}
+
+.sgp {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--text-base--line-height);
+  padding-bottom: var(--space-6, 24px);
+}
+.sgp h1,
+.sgp h2,
+.sgp h3,
+.sgp h4 {
+  font-family: var(--font-heading);
+  color: var(--color-text);
+  margin: 0 0 var(--space-2, 8px);
+}
+.sgp h1 {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl--line-height);
+  letter-spacing: var(--text-4xl--letter-spacing);
+  font-weight: var(--text-4xl--font-weight);
+}
+.sgp h2 {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl--line-height);
+  letter-spacing: var(--text-3xl--letter-spacing);
+  font-weight: var(--text-3xl--font-weight);
+}
+.sgp h3 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl--line-height);
+  letter-spacing: var(--text-2xl--letter-spacing);
+  font-weight: var(--text-2xl--font-weight);
+}
+.sgp h4 {
+  font-size: var(--text-xl);
+  line-height: var(--text-xl--line-height);
+  letter-spacing: var(--text-xl--letter-spacing);
+  font-weight: var(--text-xl--font-weight);
+}
+.sgp p {
+  margin: 0 0 var(--space-3, 12px);
+}
+.sgp a {
+  color: var(--color-primary);
+}
+.sgp small,
+.sgp-muted {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.sgp-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4, 16px);
+  padding: var(--space-3, 12px) var(--space-6, 24px);
+  border-bottom: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+.sgp-wordmark {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+}
+.sgp-logo {
+  max-height: 32px;
+  max-width: 160px;
+}
+.sgp-nav nav {
+  display: flex;
+  gap: var(--space-4, 16px);
+  font-size: var(--text-sm);
+}
+.sgp-nav nav a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+}
+.sgp-nav nav a:hover {
+  color: var(--color-text);
+}
+.sgp-nav nav a[aria-current="page"] {
+  color: var(--color-primary);
+}
+
+.sgp-hero,
+.sgp-grid,
+.sgp-alerts,
+.sgp-type {
+  padding: var(--space-6, 24px) var(--space-6, 24px) 0;
+}
+.sgp-lead {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg--line-height);
+  color: var(--color-text-muted);
+}
+.sgp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2, 8px);
+}
+
+.sgp-btn {
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: var(--space-2, 8px) var(--space-4, 16px);
+  cursor: pointer;
+  transition: filter var(--duration-fast) var(--ease-standard);
+}
+.sgp-btn:hover:not(:disabled) {
+  filter: brightness(0.92);
+}
+.sgp-btn:focus-visible,
+.sgp-input:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+.sgp-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.sgp-btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.sgp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4, 16px);
+}
+.sgp-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-6, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1, 4px);
+}
+.sgp-card label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+.sgp-input {
+  font: inherit;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2, 8px) var(--space-3, 12px);
+}
+.sgp-help {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.sgp-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  margin-top: var(--space-2, 8px);
+  color: var(--color-text-muted);
+}
+
+.sgp-alerts {
+  display: grid;
+  gap: var(--space-2, 8px);
+}
+.sgp-alert {
+  background: var(--color-surface);
+  border: 1px solid;
+  border-left-width: 4px;
+  border-radius: var(--radius-md);
+  padding: var(--space-3, 12px) var(--space-4, 16px);
+  font-size: var(--text-sm);
+}
+.sgp-alert strong {
+  font-weight: 600;
+}
+.sgp-alert-success {
+  border-color: var(--color-success);
+}
+.sgp-alert-success strong {
+  color: var(--color-success);
+}
+.sgp-alert-warning {
+  border-color: var(--color-warning);
+}
+.sgp-alert-warning strong {
+  color: var(--color-warning);
+}
+.sgp-alert-danger {
+  border-color: var(--color-danger);
+}
+.sgp-alert-danger strong {
+  color: var(--color-danger);
+}
+.sgp-alert-info {
+  border-color: var(--color-info);
+}
+.sgp-alert-info strong {
+  color: var(--color-info);
+}

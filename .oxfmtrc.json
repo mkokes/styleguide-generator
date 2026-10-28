@@ -1,0 +1,10 @@
+{
+  "ignorePatterns": [
+    "dist",
+    "dev-dist",
+    "coverage",
+    "package-lock.json",
+    "**/__snapshots__/**",
+    "src/data/google-fonts.json"
+  ]
+}
