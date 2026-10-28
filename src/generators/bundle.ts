@@ -35,6 +35,16 @@ function dataUrlBytes(dataUrl: string): Uint8Array {
   return Uint8Array.from(binary, (c) => c.charCodeAt(0));
 }
 
+/** A plain file name for a zip entry: no directories, no `..`, no hidden files. */
+export function safeFileName(name: string | undefined): string {
+  const base = (name ?? "")
+    .split(/[\\/]/)
+    .pop()!
+    .replace(/[^\w.-]/g, "_")
+    .replace(/^\.+/, "");
+  return base.slice(0, 100) || "logo";
+}
+
 /** All enabled outputs (plus the uploaded logo, if any) in a folder named after the brand. */
 export function buildZip(guide: Guide): Uint8Array {
   const dir = slug(guide.basics.name);
@@ -42,7 +52,8 @@ export function buildZip(guide: Guide): Uint8Array {
   for (const f of generateFiles(guide)) entries[`${dir}/${f.name}`] = strToU8(f.content);
   const { previewDataUrl, previewFileName } = guide.logo;
   if (previewDataUrl) {
-    entries[`${dir}/logo/${previewFileName ?? "logo"}`] = dataUrlBytes(previewDataUrl);
+    // The file name can come from an imported project file, so it must not escape the folder.
+    entries[`${dir}/logo/${safeFileName(previewFileName)}`] = dataUrlBytes(previewDataUrl);
   }
   return zipSync(entries);
 }

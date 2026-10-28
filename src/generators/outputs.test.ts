@@ -1,6 +1,6 @@
 import { strFromU8, unzipSync } from "fflate";
 import { createGuide } from "../model/presets";
-import { buildZip, generateFiles, slug } from "./bundle";
+import { buildZip, generateFiles, safeFileName, slug } from "./bundle";
 import { generateCss } from "./css";
 import { buildDtcg, generateDtcg } from "./dtcg";
 import { outputFiles } from "./files";
@@ -119,4 +119,16 @@ test("a hostile brand name can't inject code into generated file headers", () =>
     expect(header.startsWith("/*") && header.endsWith("*/")).toBe(true);
     expect(header.slice(2, -2)).not.toContain("*/");
   }
+});
+
+test("logo file names can't escape the zip folder", () => {
+  expect(safeFileName("../../.bashrc")).toBe("bashrc");
+  expect(safeFileName("..\\..\\evil.png")).toBe("evil.png");
+  expect(safeFileName("my logo (1).png")).toBe("my_logo__1_.png");
+  expect(safeFileName("..")).toBe("logo");
+  expect(safeFileName(undefined)).toBe("logo");
+  const guide = g();
+  guide.logo.previewDataUrl = `data:image/png;base64,${btoa("PNG")}`;
+  guide.logo.previewFileName = "../../../etc/passwd";
+  expect(Object.keys(unzipSync(buildZip(guide)))).toContain("snapshot/logo/passwd");
 });
