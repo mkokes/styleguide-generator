@@ -63,3 +63,17 @@ test("a stored preference is read, and storage errors fall back to system", asyn
   await pick("Dark");
   expect(document.documentElement.dataset.theme).toBe("dark");
 });
+
+test("the theme-color meta tag follows the chosen mode", async () => {
+  const meta = document.createElement("meta");
+  meta.name = "theme-color";
+  meta.content = "#FFFFFF";
+  document.head.append(meta);
+  renderAt("/");
+  expect(meta.content).toBe("#FFFFFF");
+  await pick("Dark");
+  expect(meta.content).toBe("#242424");
+  await pick("Light");
+  expect(meta.content).toBe("#FFFFFF");
+  meta.remove();
+});

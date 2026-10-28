@@ -1,18 +1,12 @@
-/* App chrome. Keep these in sync with the palette in theme.ts. */
+/*
+ * App chrome, styled with the mk-styleguide tokens (styleguide/tokens.css, loaded in main.tsx).
+ * Use the role variables (--color-bg, --color-text, --color-link...) rather than raw values; they
+ * switch with <html data-theme>. The antd theme in theme.ts mirrors the same values.
+ */
 :root {
-  --app-bg: #f7f6fb;
-  --app-surface: #ffffff;
-  --app-text: #1e1b2e;
-  --app-text-secondary: #5f5a73;
-  --app-border: #e6e3ef;
   color-scheme: light;
 }
 :root[data-theme="dark"] {
-  --app-bg: #16141f;
-  --app-surface: #1f1c2b;
-  --app-text: #eceaf4;
-  --app-text-secondary: #a9a4bc;
-  --app-border: #2f2b3f;
   color-scheme: dark;
 }
 
@@ -21,9 +15,29 @@
 }
 body {
   margin: 0;
-  background: var(--app-bg);
-  color: var(--app-text);
-  font-family: "Inter Variable", system-ui, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+/* Poppins for headings (h1–h4), Inter for everything else. */
+h1,
+h2,
+h3,
+h4,
+.ant-typography:is(h1, h2, h3, h4) {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+}
+::selection {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+a {
+  color: var(--color-link);
+}
+:focus-visible {
+  outline-color: var(--color-link);
 }
 
 .app {
@@ -33,18 +47,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--app-border);
+  border-bottom: 1px solid var(--color-border);
   position: sticky;
   top: 0;
   z-index: 10;
 }
 .app-brand {
+  font-family: var(--font-heading);
   display: flex;
   align-items: center;
   gap: 10px;
   font-weight: 600;
   font-size: 16px;
-  color: var(--app-text);
+  color: var(--color-text);
 }
 .app-content {
   padding: 24px 16px 48px;
@@ -63,7 +78,7 @@ body {
   gap: 16px;
 }
 .muted {
-  color: var(--app-text-secondary);
+  color: var(--color-text-muted);
 }
 .small {
   font-size: 12px;
@@ -98,7 +113,7 @@ body {
 .wizard-nav {
   margin-top: 32px;
   padding-top: 16px;
-  border-top: 1px solid var(--app-border);
+  border-top: 1px solid var(--color-border);
 }
 @media (max-width: 1199px) {
   .wizard {
@@ -126,7 +141,7 @@ body {
 .rules {
   margin-top: 32px;
   padding-top: 8px;
-  border-top: 1px dashed var(--app-border);
+  border-top: 1px dashed var(--color-border);
 }
 .inline-fields {
   display: flex;
@@ -167,7 +182,7 @@ body {
   flex: none;
 }
 .scale-step.is-overridden {
-  outline: 2px solid var(--app-text);
+  outline: 2px solid var(--color-text);
   outline-offset: 1px;
 }
 .contrast-sample {
@@ -178,11 +193,11 @@ body {
   height: 24px;
   border-radius: 4px;
   font-weight: 600;
-  border: 1px solid var(--app-border);
+  border: 1px solid var(--color-border);
 }
 
 .font-picker {
-  border: 1px solid var(--app-border);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 12px 16px 0;
   margin: 0 0 16px;
@@ -207,7 +222,7 @@ body {
   margin-bottom: 16px;
 }
 .spacing-demo span {
-  background: var(--app-text-secondary);
+  background: var(--color-text-muted);
   opacity: 0.35;
   border-radius: 2px;
   min-width: 1px;
@@ -222,8 +237,9 @@ body {
   width: 64px;
   height: 40px;
   border-radius: 8px;
-  background: #fff;
-  color: #333;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
   font-size: 12px;
 }
 .variant-row {
@@ -238,8 +254,9 @@ body {
   margin-bottom: 8px;
 }
 .file-preview {
-  background: var(--app-surface);
-  border: 1px solid var(--app-border);
+  font-family: var(--font-mono);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 16px;
   max-height: 600px;

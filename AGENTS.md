@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Context for AI coding agents working in this repo. Human-facing overview: [README.md](README.md). The app's own visual style: [STYLEGUIDE.md](STYLEGUIDE.md).
+Context for AI coding agents working in this repo. Human-facing overview: [README.md](README.md). The app's own visual style follows the shared mk-styleguide (vendored in [styleguide/](styleguide/)); [STYLEGUIDE.md](STYLEGUIDE.md) explains how it maps onto this app.
 
 ## What this is
 
@@ -12,11 +12,12 @@ A client-side React + Ant Design wizard that builds a brand styleguide and expor
 index.html              Inline script sets data-theme before first paint
 pwa-manifest.ts         Web app manifest (vite-plugin-pwa)
 vite.config.ts          Vite + Vitest config (base path, coverage thresholds, test timeout)
+styleguide/             Vendored mk-styleguide tokens.css + STYLEGUIDE.md (don't edit; copy from mk-styleguide)
 scripts/fetch-google-fonts.mjs   Refreshes src/data/google-fonts.json (`npm run fonts`)
 src/
   main.tsx              Entry: HashRouter, Inter font, global CSS
   App.tsx               Routes (list, wizard [lazy], import, 404) + app theme
-  theme.ts, index.css   App chrome palette (keep in sync) and layout CSS
+  theme.ts, index.css   antd theme (hex mirror of the mk-styleguide tokens) and layout CSS using the token variables
   useThemeMode.ts       light / system / dark preference for the app itself
   model/                Guide types, defaults, presets, normalize (fills gaps in old/partial data), labels
   lib/                  Pure logic: color (OKLCH scales, roles, contrast), typeScale, tokens (CSS var names
