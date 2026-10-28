@@ -47,6 +47,8 @@ export function themeConfig(mode: "light" | "dark"): ThemeConfig {
       colorBgElevated: mode === "dark" ? c.surface : c.bg,
       colorText: c.text,
       colorTextSecondary: c.textMuted,
+      // Typography type="secondary" reads colorTextDescription, so it gets the muted role too.
+      colorTextDescription: c.textMuted,
       colorBorder: c.border,
       colorBorderSecondary: c.border,
       // Text on solid primary (checkbox ticks, step numbers): dark on lime in dark mode.
@@ -67,6 +69,11 @@ export function themeConfig(mode: "light" | "dark"): ThemeConfig {
         colorPrimaryHover: lime.hover,
         colorPrimaryActive: lime.active,
         primaryColor: lime.onFill,
+        // The lime overrides above also drive default-button hover; keep that on the link role.
+        defaultHoverColor: c.link,
+        defaultHoverBorderColor: c.link,
+        defaultActiveColor: c.link,
+        defaultActiveBorderColor: c.link,
         primaryShadow: "none",
         borderRadius: 9999,
         borderRadiusLG: 9999,
