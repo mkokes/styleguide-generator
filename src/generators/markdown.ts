@@ -11,7 +11,7 @@ import {
 } from "../model/types";
 import { buildScales, checkContrast, parseRef } from "../lib/color";
 import { ELEMENT_STEPS, buildTypeScale } from "../lib/typeScale";
-import { easingCss, kebab, rem, roleVar, shadowCss, spaceName } from "../lib/tokens";
+import { commentSafe, easingCss, kebab, rem, roleVar, shadowCss, spaceName } from "../lib/tokens";
 import { fontCssUrl } from "../lib/fonts";
 import { outputFiles } from "./files";
 import { ROLE_USAGE } from "../model/labels";
@@ -79,7 +79,7 @@ export function generateMarkdown(guide: Guide): string {
   const out: string[] = [];
 
   out.push(
-    `# ${basics.name} Styleguide`,
+    `# ${commentSafe(basics.name)} Styleguide`,
     [
       "> Written for AI coding agents and the developers working with them. Every value below is a",
       "> design token: **reference the token, never the raw value.** If you need something this guide",

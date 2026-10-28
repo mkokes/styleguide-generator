@@ -38,3 +38,17 @@ test("rejects things that aren't guides", () => {
   expect(() => normalizeGuide([])).toThrow();
   expect(() => normalizeGuide({ basics: [] })).toThrow();
 });
+
+test("only inline base64 images survive as the logo preview", () => {
+  const withLogo = (previewDataUrl: string) =>
+    normalizeGuide({ basics: {}, logo: { previewDataUrl, previewFileName: "x.png" } }).logo;
+  expect(withLogo("data:image/png;base64,AAAA").previewDataUrl).toBe("data:image/png;base64,AAAA");
+  for (const bad of [
+    "https://evil.example/pixel.png",
+    "javascript:alert(1)",
+    "data:text/html;base64,AA",
+  ]) {
+    expect(withLogo(bad)).not.toHaveProperty("previewDataUrl");
+    expect(withLogo(bad)).not.toHaveProperty("previewFileName");
+  }
+});

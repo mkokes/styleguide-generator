@@ -18,7 +18,7 @@ test("base colors change through the hex box and the picker", async () => {
   expect(primary).toHaveClass("ant-input-status-error");
   await userEvent.clear(primary);
   await userEvent.type(primary, "#0f766e");
-  await userEvent.click(screen.getByRole("button", { name: "pick #2563EB" }));
+  await userEvent.click(screen.getByText("pick #2563EB"));
   const c = saved().colors;
   expect(c.base.primary).toBe("#0f766e");
   expect(c.base.info).toBe("#123456");
@@ -26,24 +26,15 @@ test("base colors change through the hex box and the picker", async () => {
 
 test("scale steps can be overridden and reset", async () => {
   const { saved } = await renderStep("color");
-  const step = screen.getByRole("button", { name: /^accent-100 / });
-  await userEvent.click(within(step.parentElement!).getByRole("button", { name: /^pick/ }));
-  await userEvent.click(
-    within(screen.getByRole("button", { name: /^accent-200 / }).parentElement!).getByRole(
-      "button",
-      { name: /^pick/ },
-    ),
-  );
-  expect(screen.getByRole("button", { name: "accent-100 #123456" })).toHaveClass("is-overridden");
+  const pickFor = (title: RegExp) =>
+    within(screen.getByTitle(title).parentElement!).getByText(/^pick/);
+  await userEvent.click(pickFor(/^accent-100 /));
+  await userEvent.click(pickFor(/^accent-200 /));
+  expect(screen.getByTitle("accent-100 #123456")).toHaveClass("is-overridden");
   // Re-picking an overridden step replaces it.
-  await userEvent.click(
-    within(screen.getByRole("button", { name: "accent-100 #123456" }).parentElement!).getByRole(
-      "button",
-      { name: /^pick/ },
-    ),
-  );
-  await userEvent.click(screen.getByRole("button", { name: "Reset accent" }));
-  expect(screen.queryByRole("button", { name: "Reset accent" })).not.toBeInTheDocument();
+  await userEvent.click(pickFor(/^accent-100 #123456/));
+  await userEvent.click(screen.getByText("Reset accent"));
+  expect(screen.queryByText("Reset accent")).not.toBeInTheDocument();
   expect(saved().colors.overrides).toEqual({});
 });
 
@@ -53,7 +44,8 @@ test("roles can be remapped and contrast fixes applied", async () => {
     g.colors.roles.dark.text = "black";
   });
   expect(screen.getAllByText(/Needs 4.5:1/).length).toBeGreaterThan(0);
-  await userEvent.click(screen.getAllByRole("button", { name: /^Use neutral-/ })[0]);
+  // Text queries: role/name queries over this step's ~200 buttons take seconds in jsdom.
+  await userEvent.click(screen.getAllByText(/^Use neutral-/)[0]);
 
   const combo = screen.getByRole("combobox", { name: "border (dark)" });
   await userEvent.click(combo);

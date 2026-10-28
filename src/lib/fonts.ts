@@ -36,7 +36,7 @@ export function fontCssUrl(families: FontFamily[]): string {
   }
   if (!merged.size) return "";
   const params = [...merged].map(([name, weights]) => {
-    const family = name.trim().replace(/ /g, "+");
+    const family = encodeURIComponent(name.trim()).replace(/%20/g, "+");
     const ws = [...weights].sort((a, b) => a - b);
     return `family=${family}${ws.length ? `:wght@${ws.join(";")}` : ""}`;
   });

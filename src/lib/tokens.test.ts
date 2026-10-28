@@ -1,6 +1,8 @@
 import { createGuide } from "../model/presets";
 import {
   baseVars,
+  commentSafe,
+  cssValueSafe,
   easingCss,
   fontStack,
   kebab,
@@ -47,4 +49,24 @@ test("vars cover palette, fonts, type, layout and roles", () => {
   expect(names).toContain("--breakpoint-md");
   expect(roleVars(g, "dark")).toContainEqual(["--color-bg", "var(--color-neutral-950)"]);
   expect(styleObject(g, "light")["--color-on-primary"]).toBe("#ffffff");
+});
+
+test("untrusted text can't break out of generated CSS or comments", () => {
+  const g = createGuide();
+  g.typography.heading = {
+    name: 'Evil"; }',
+    source: "custom",
+    weights: [],
+    fallback: "x; } body { color: red",
+  };
+  (g.layout.radius as Record<string, number>)["x:1;}body{"] = 1;
+  g.colors.roles.light.bg = "neutral-50);}*{x:1" as never;
+  const vars = [...baseVars(g), ...roleVars(g, "light")];
+  for (const [k, v] of vars) {
+    expect(k).toMatch(/^[\w-]+$/);
+    expect(v).not.toMatch(/[;{}<>\\\r\n]/);
+  }
+  expect(fontStack(g.typography.heading)).toBe('"Evil ", x  body  color: red');
+  expect(commentSafe("a\r\nb */ c d")).toBe("a b * / c d");
+  expect(cssValueSafe("a;b{c}")).toBe("abc");
 });

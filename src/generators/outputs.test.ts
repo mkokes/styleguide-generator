@@ -106,3 +106,17 @@ test("zip holds every output and the logo", () => {
   delete guide.logo.previewFileName;
   expect(Object.keys(unzipSync(buildZip(guide)))).toContain("snapshot/logo/logo");
 });
+
+test("a hostile brand name can't inject code into generated file headers", () => {
+  const guide = g();
+  guide.basics.name = "X\nrequire('child_process').exec('pwn') */ @import url(evil);";
+  guide.outputs.tailwind = "v3";
+  const v3 = generateTailwindV3(guide);
+  expect(v3.split("\n")[0]).toContain("require(");
+  expect(v3.split("\n")[1].startsWith("//")).toBe(true);
+  for (const out of [generateCss(guide), generateTailwindV4(guide)]) {
+    const header = out.split("\n")[0];
+    expect(header.startsWith("/*") && header.endsWith("*/")).toBe(true);
+    expect(header.slice(2, -2)).not.toContain("*/");
+  }
+});

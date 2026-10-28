@@ -24,3 +24,11 @@ test("damaged links throw a readable error", () => {
   );
   expect(() => decodeGuide(compressToEncodedURIComponent("[1]"))).toThrow("incomplete or damaged");
 });
+
+test("a crafted link can't carry a logo image", () => {
+  const g = createGuide();
+  const raw = { ...g, logo: { ...g.logo, previewDataUrl: "data:image/png;base64,AAAA" } };
+  expect(
+    decodeGuide(compressToEncodedURIComponent(JSON.stringify(raw))).logo.previewDataUrl,
+  ).toBeUndefined();
+});

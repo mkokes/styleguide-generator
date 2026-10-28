@@ -1,4 +1,5 @@
 import { Button, ColorPicker, Flex, Form, Select, Table, Tag, Typography } from "antd";
+import { useMemo } from "react";
 import { Field, HexInput, RulesEditor } from "../components/fields";
 import { buildScales, checkContrast, resolveRef, type Scales } from "../lib/color";
 import { ROLE_USAGE } from "../model/labels";
@@ -8,6 +9,7 @@ import {
   SCALE_STEPS,
   type ColorKey,
   type ColorRef,
+  type Guide,
   type Mode,
   type RoleKey,
 } from "../model/types";
@@ -37,9 +39,14 @@ function refOptions(scales: Scales) {
 export default function ColorStep() {
   const { guide, update } = useGuide();
   const colors = guide.colors;
-  const scales = buildScales(colors);
-  const options = refOptions(scales);
-  const checks = checkContrast(guide, scales);
+  // Memoized: this step re-renders on every keystroke and these are the expensive parts.
+  const scales = useMemo(() => buildScales(colors), [colors]);
+  const options = useMemo(() => refOptions(scales), [scales]);
+  const target = guide.accessibility.target;
+  const checks = useMemo(
+    () => checkContrast({ colors, accessibility: { target } } as Guide, scales),
+    [colors, target, scales],
+  );
 
   const setRole = (mode: Mode, role: RoleKey, ref: ColorRef) =>
     update("colors", {

@@ -13,7 +13,10 @@ export function decodeGuide(data: string): Guide {
   const json = decompressFromEncodedURIComponent(data);
   if (!json) throw new Error("This share link is incomplete or damaged.");
   try {
-    return withNewId(normalizeGuide(JSON.parse(json)));
+    // Links never carry the logo upload; drop one a hand-crafted link tries to smuggle in.
+    const guide = normalizeGuide(JSON.parse(json));
+    const { previewDataUrl: _, previewFileName: __, ...logo } = guide.logo;
+    return withNewId({ ...guide, logo });
   } catch {
     throw new Error("This share link is incomplete or damaged.");
   }

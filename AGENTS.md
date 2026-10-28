@@ -55,6 +55,7 @@ The Husky pre-push hook runs `lint`, `format:check` and `test:coverage`. CI (`.g
 - **Wizard edits** go through `useGuide().update(section, partial)`, which shallow-merges one section. Nested records (roles, overrides, rules) must be spread by the caller.
 - **Inputs that edit non-text values** (hex, number lists, easings) keep local text through `useDraft` in `components/fields.tsx` and commit only when the value is valid.
 - **Tests** sit next to the code and use Testing Library role/label queries. Coverage must stay at 100%, or CI and pre-push fail.
+- **Treat guides as untrusted input.** Share links and imported files are attacker-controllable. Anything written into generated code goes through `commentSafe` / `cssValueSafe` / `safeVars` in `lib/tokens.ts` (Tailwind v3 and DTCG output are `JSON.stringify`'d). `normalizeGuide` only keeps a logo preview that is an inline base64 image, and share links never carry one.
 - Wrap `localStorage` access in try/catch (see `lib/storage.ts`).
 - Formatting is oxfmt; snapshots and the fonts JSON are excluded from it.
 
@@ -64,5 +65,6 @@ The Husky pre-push hook runs `lint`, `format:check` and `test:coverage`. CI (`.g
 - antd `Segmented` radios have `pointer-events: none`. In tests, click the option's `<label>` or its text.
 - antd `ColorPicker` can't be driven in jsdom. Tests swap it for `MockColorPicker` with `vi.mock("antd", ...)`.
 - rc-upload replaces its `<input type="file">` after each upload, so re-query it before uploading again.
+- In big wizard steps (Color especially), `getByRole(..., { name })` over hundreds of buttons takes seconds in jsdom and has timed out CI. Prefer `getByText` / `getByTitle` / `getByLabelText` there.
 - The preview has its own headings. When waiting for the wizard in tests, query the Back button or use `level: 2` together with a name.
 - `src/setupTests.ts` stubs `matchMedia`, `scrollTo` and `ResizeObserver`, and raises Testing Library's async timeout. Wizard tests are slow under parallel coverage runs, so `testTimeout` is 30s.

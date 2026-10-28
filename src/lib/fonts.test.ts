@@ -45,3 +45,9 @@ test("catalog loads once from the bundled snapshot", async () => {
   expect(a.find((f) => f.family === "Inter")?.weights).toContain(400);
   expect(loadCatalog()).toBe(loadCatalog());
 });
+
+test("font names are URL-encoded", () => {
+  expect(fontCssUrl([{ name: "A&b=c", source: "google", weights: [], fallback: "" }])).toBe(
+    "https://fonts.googleapis.com/css2?family=A%26b%3Dc&display=swap",
+  );
+});

@@ -25,9 +25,26 @@ export function rem(px: number): string {
   return `${Math.round((px / 16) * 10000) / 10000}rem`;
 }
 
+// Guides can come from share links and imported files, so anything written into generated code
+// is sanitized here rather than trusted.
+
+/** Single-line text that can't close a `//` or `/* *\/` comment in generated code. */
+export function commentSafe(text: string): string {
+  return text.replace(/[\r\n\u2028\u2029]+/g, " ").replace(/\*\//g, "* /");
+}
+
+/** Drops characters that could end a declaration or open a rule in generated CSS. */
+export function cssValueSafe(value: string): string {
+  return value.replace(/[;{}<>\\\r\n]/g, "");
+}
+
+function safeVars(vars: Var[]): Var[] {
+  return vars.map(([k, v]) => [k.replace(/[^\w-]/g, ""), cssValueSafe(v)]);
+}
+
 export function fontStack(f: FontFamily): string {
-  const name = /^[\w-]+$/.test(f.name) ? f.name : `"${f.name}"`;
-  return f.fallback ? `${name}, ${f.fallback}` : name;
+  const name = /^[\w-]+$/.test(f.name) ? f.name : `"${f.name.replace(/["\\;{}<>\r\n]/g, "")}"`;
+  return f.fallback ? `${name}, ${cssValueSafe(f.fallback)}` : name;
 }
 
 export function shadowCss(s: Shadow): string {
@@ -60,7 +77,9 @@ export function paletteVars(scales: Scales): Var[] {
 }
 
 export function roleVars(guide: Guide, mode: Mode): Var[] {
-  return ROLE_KEYS.map((role) => [roleVar(role), refValue(guide.colors.roles[mode][role])]);
+  return safeVars(
+    ROLE_KEYS.map((role) => [roleVar(role), refValue(guide.colors.roles[mode][role])]),
+  );
 }
 
 export function fontVars(guide: Guide): Var[] {
@@ -99,7 +118,12 @@ export function layoutVars(guide: Guide): Var[] {
 
 /** Every mode-independent variable, in output order. */
 export function baseVars(guide: Guide, scales = buildScales(guide.colors)): Var[] {
-  return [...paletteVars(scales), ...fontVars(guide), ...textVars(guide), ...layoutVars(guide)];
+  return safeVars([
+    ...paletteVars(scales),
+    ...fontVars(guide),
+    ...textVars(guide),
+    ...layoutVars(guide),
+  ]);
 }
 
 /** All variables for one mode as a React style object (used by the live preview). */

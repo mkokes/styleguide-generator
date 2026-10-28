@@ -8,6 +8,9 @@ const isObject = (x: unknown): x is Record<string, unknown> =>
  * Fills anything missing from a stored, imported or shared guide with defaults, so data from older
  * versions of the app still loads. Throws if the input isn't a guide at all.
  */
+// Only inline images; never a remote URL that would be fetched when the preview renders.
+const SAFE_IMAGE = /^data:image\/(png|jpeg|gif|webp|svg\+xml);base64,[A-Za-z0-9+/=]+$/;
+
 export function normalizeGuide(raw: unknown): Guide {
   if (!isObject(raw) || !isObject(raw.basics)) throw new Error("Not a styleguide");
   const d = defaultGuide();
@@ -39,7 +42,7 @@ export function normalizeGuide(raw: unknown): Guide {
     },
     typography: merge("typography"),
     layout: merge("layout"),
-    logo: merge("logo"),
+    logo: safeLogo(merge("logo")),
     icons: merge("icons"),
     imagery: merge("imagery"),
     components: { notes: { ...d.components.notes, ...r.components?.notes } },
@@ -47,4 +50,10 @@ export function normalizeGuide(raw: unknown): Guide {
     rules,
     outputs: merge("outputs"),
   };
+}
+
+function safeLogo(logo: Guide["logo"]): Guide["logo"] {
+  if (typeof logo.previewDataUrl === "string" && SAFE_IMAGE.test(logo.previewDataUrl)) return logo;
+  const { previewDataUrl: _, previewFileName: __, ...rest } = logo;
+  return rest;
 }
