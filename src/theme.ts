@@ -15,6 +15,7 @@ export const palette = {
     textMuted: "#6E6E6E", // --color-text-muted (neutral-600)
     border: "#D9D9D9", // --color-border (neutral-200)
     link: "#476700", // --color-link (primary-700)
+    danger: "#DC2626", // --color-danger (danger-600)
   },
   dark: {
     bg: "#242424",
@@ -23,6 +24,7 @@ export const palette = {
     textMuted: "#C1C1C1", // neutral-300
     border: "#484848", // neutral-800
     link: "#BAFF39", // primary-100
+    danger: "#FA7064", // danger-400
   },
 };
 
@@ -42,6 +44,8 @@ export function themeConfig(mode: "light" | "dark"): ThemeConfig {
       // antd's "primary" drives links, focus, checkboxes and selected states: the link role.
       colorPrimary: c.link,
       colorLink: c.link,
+      // The danger role, so solid danger buttons pass contrast with their text in both modes.
+      colorError: c.danger,
       colorBgLayout: c.bg,
       colorBgContainer: c.bg,
       colorBgElevated: mode === "dark" ? c.surface : c.bg,
@@ -56,8 +60,8 @@ export function themeConfig(mode: "light" | "dark"): ThemeConfig {
       borderRadius: 10, // --radius-md
       borderRadiusLG: 16, // --radius-lg
       borderRadiusSM: 6, // --radius-sm
-      fontFamily: '"Inter Variable", Inter, system-ui, sans-serif',
-      fontFamilyCode: '"JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace',
+      fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', sans-serif",
+      fontFamilyCode: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
       motionDurationFast: "0.1s", // --duration-fast
       motionDurationMid: "0.18s", // --duration-normal
       motionDurationSlow: "0.28s", // --duration-slow
@@ -74,6 +78,12 @@ export function themeConfig(mode: "light" | "dark"): ThemeConfig {
         defaultHoverBorderColor: c.link,
         defaultActiveColor: c.link,
         defaultActiveBorderColor: c.link,
+        // Pin solid danger buttons to the danger role: antd's dark algorithm would shift colorError
+        // and drop the text contrast below 4.5:1.
+        colorError: c.danger,
+        colorErrorHover: c.danger,
+        colorErrorActive: c.danger,
+        dangerColor: mode === "dark" ? lime.onFill : "#FFFFFF",
         primaryShadow: "none",
         borderRadius: 9999,
         borderRadiusLG: 9999,
@@ -81,6 +91,8 @@ export function themeConfig(mode: "light" | "dark"): ThemeConfig {
         fontWeight: 600,
       },
       Card: { colorBgContainer: c.surface },
+      // antd draws checkmarks in colorWhite; on the dark-mode lime box it must be dark.
+      Checkbox: { colorWhite: mode === "dark" ? lime.onFill : "#FFFFFF" },
       Layout: { headerBg: c.bg, headerPadding: "0 16px", bodyBg: c.bg },
     },
   };
