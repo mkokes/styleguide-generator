@@ -24,6 +24,7 @@ export const ROLE_KEYS = [
   "border",
   "primary",
   "onPrimary",
+  "link",
   "success",
   "warning",
   "danger",

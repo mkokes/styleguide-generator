@@ -122,7 +122,7 @@ export function generateMarkdown(guide: Guide): string {
       list([
         `Style with CSS custom properties (${v("--color-primary")}, ${v("--space-4")}, ${v("--radius-md")})${tw !== "off" ? " or the matching Tailwind utilities listed in each table" : ""}.`,
         "Never hardcode a hex code, px size, font name, shadow or easing that a token already represents.",
-        `Use **role** colors (${code("--color-bg")}, ${code("--color-text")}, ${code("--color-primary")}...) for UI. They switch automatically in dark mode. Use raw palette steps only for illustrations, charts and one-off accents.`,
+        `Use **role** colors (${code("--color-bg")}, ${code("--color-text")}, ${code("--color-link")}...) for UI. They switch automatically in dark mode. Use raw palette steps only for illustrations, charts and one-off accents.`,
         `Dark mode is driven by ${code('data-theme="dark"')} on ${code("<html>")}, falling back to the OS preference unless ${code('data-theme="light"')} is set.`,
       ]),
     ),
@@ -132,8 +132,8 @@ export function generateMarkdown(guide: Guide): string {
   const contrast = checkContrast(guide, scales);
   const colorAuto: Rules = {
     do: [
-      `Use ${v("--color-primary")} for the single most important action on a screen, links and focus rings.`,
-      `Put text on ${code("primary")} backgrounds in ${v("--color-on-primary")}.`,
+      `Use ${v("--color-primary")} as the fill for the single most important action on a screen, and put its text and icons in ${v("--color-on-primary")}.`,
+      `Use ${v("--color-link")} (not ${code("primary")}) for links, focus rings, the current nav item and brand-colored text or icons on the background.`,
       "Only pair foreground and background roles that pass in the contrast table.",
     ],
     dont: [
@@ -399,7 +399,7 @@ export function generateMarkdown(guide: Guide): string {
     input: [
       `Background ${v("--color-bg")}, 1px ${v("--color-border")} border, radius ${v("--radius-md")}, padding ${sp(2)} ${sp(3)}, ${code("--text-base")}.`,
       `Label above the field in ${code("--text-sm")}, weight 500. Help text below in ${v("--color-text-muted")}.`,
-      `**Focus:** border ${v("--color-primary")} plus the focus ring. **Error:** border and message in ${v("--color-danger")}.`,
+      `**Focus:** border ${v("--color-link")} plus the focus ring. **Error:** border and message in ${v("--color-danger")}.`,
     ],
     card: [
       `Background ${v("--color-surface")}, 1px ${v("--color-border")} border, radius ${v("--radius-lg")}, padding ${sp(6)}, shadow ${v("--shadow-sm")}.`,
@@ -411,7 +411,7 @@ export function generateMarkdown(guide: Guide): string {
     ],
     nav: [
       `Background ${v("--color-bg")} with a 1px ${v("--color-border")} bottom border.`,
-      `Links in ${v("--color-text-muted")}, ${v("--color-text")} on hover, ${v("--color-primary")} for the current page (also mark it with ${code('aria-current="page"')}).`,
+      `Links in ${v("--color-text-muted")}, ${v("--color-text")} on hover, ${v("--color-link")} for the current page (also mark it with ${code('aria-current="page"')}).`,
     ],
   };
   const recipeTitles: Record<ComponentKey, string> = {

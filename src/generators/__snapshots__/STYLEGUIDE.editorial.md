@@ -33,7 +33,7 @@ Considered and articulate. Write like a good magazine: specific, vivid, never pa
 
 - Style with CSS custom properties (`var(--color-primary)`, `var(--space-4)`, `var(--radius-md)`) or the matching Tailwind utilities listed in each table.
 - Never hardcode a hex code, px size, font name, shadow or easing that a token already represents.
-- Use **role** colors (`--color-bg`, `--color-text`, `--color-primary`...) for UI. They switch automatically in dark mode. Use raw palette steps only for illustrations, charts and one-off accents.
+- Use **role** colors (`--color-bg`, `--color-text`, `--color-link`...) for UI. They switch automatically in dark mode. Use raw palette steps only for illustrations, charts and one-off accents.
 - Dark mode is driven by `data-theme="dark"` on `<html>`, falling back to the OS preference unless `data-theme="light"` is set.
 
 ## Color
@@ -47,8 +47,9 @@ Considered and articulate. Write like a good magazine: specific, vivid, never pa
 | `text` | Body text and headings | `--color-neutral-900` | `--color-neutral-50` | `var(--color-text)` | `*-text` |
 | `textMuted` | Secondary text, captions, placeholders | `--color-neutral-700` | `--color-neutral-400` | `var(--color-text-muted)` | `*-text-muted` |
 | `border` | Dividers and input/card borders | `--color-neutral-200` | `--color-neutral-800` | `var(--color-border)` | `*-border` |
-| `primary` | Primary actions, links, focus rings, selected states | `--color-primary-600` | `--color-primary-400` | `var(--color-primary)` | `*-primary` |
-| `onPrimary` | Text and icons placed on a primary background | white | `--color-neutral-950` | `var(--color-on-primary)` | `*-on-primary` |
+| `primary` | Fill for primary actions and selected states | `--color-primary-600` | `--color-primary-400` | `var(--color-primary)` | `*-primary` |
+| `onPrimary` | Text and icons placed on a primary fill | white | `--color-neutral-950` | `var(--color-on-primary)` | `*-on-primary` |
+| `link` | Links, focus rings, current nav item, brand-colored text and icons on the background | `--color-primary-600` | `--color-primary-300` | `var(--color-link)` | `*-link` |
 | `success` | Success messages and icons | `--color-success-700` | `--color-success-400` | `var(--color-success)` | `*-success` |
 | `warning` | Warning messages and icons | `--color-warning-700` | `--color-warning-400` | `var(--color-warning)` | `*-warning` |
 | `danger` | Errors, destructive actions | `--color-danger-600` | `--color-danger-400` | `var(--color-danger)` | `*-danger` |
@@ -83,7 +84,8 @@ Target: **WCAG AA**. Text needs 4.5:1; UI elements such as primary-on-background
 | `textMuted` | `bg` | light | 6.87:1 | 4.5:1 | Pass |
 | `textMuted` | `surface` | light | 6.38:1 | 4.5:1 | Pass |
 | `onPrimary` | `primary` | light | 5.52:1 | 4.5:1 | Pass |
-| `primary` | `bg` | light | 5.52:1 | 3:1 | Pass |
+| `link` | `bg` | light | 5.52:1 | 4.5:1 | Pass |
+| `link` | `surface` | light | 5.13:1 | 4.5:1 | Pass |
 | `success` | `bg` | light | 6.43:1 | 4.5:1 | Pass |
 | `warning` | `bg` | light | 7.06:1 | 4.5:1 | Pass |
 | `danger` | `bg` | light | 4.83:1 | 4.5:1 | Pass |
@@ -93,7 +95,8 @@ Target: **WCAG AA**. Text needs 4.5:1; UI elements such as primary-on-background
 | `textMuted` | `bg` | dark | 6.03:1 | 4.5:1 | Pass |
 | `textMuted` | `surface` | dark | 4.55:1 | 4.5:1 | Pass |
 | `onPrimary` | `primary` | dark | 5.74:1 | 4.5:1 | Pass |
-| `primary` | `bg` | dark | 5.74:1 | 3:1 | Pass |
+| `link` | `bg` | dark | 8.31:1 | 4.5:1 | Pass |
+| `link` | `surface` | dark | 6.27:1 | 4.5:1 | Pass |
 | `success` | `bg` | dark | 6.40:1 | 4.5:1 | Pass |
 | `warning` | `bg` | dark | 4.89:1 | 4.5:1 | Pass |
 | `danger` | `bg` | dark | 5.61:1 | 4.5:1 | Pass |
@@ -101,8 +104,8 @@ Target: **WCAG AA**. Text needs 4.5:1; UI elements such as primary-on-background
 
 **Do**
 
-- Use `var(--color-primary)` for the single most important action on a screen, links and focus rings.
-- Put text on `primary` backgrounds in `var(--color-on-primary)`.
+- Use `var(--color-primary)` as the fill for the single most important action on a screen, and put its text and icons in `var(--color-on-primary)`.
+- Use `var(--color-link)` (not `primary`) for links, focus rings, the current nav item and brand-colored text or icons on the background.
 - Only pair foreground and background roles that pass in the contrast table.
 
 **Don't**
@@ -262,7 +265,7 @@ Mobile-first: write base styles for small screens, then add `min-width` media qu
 
 - Background `var(--color-bg)`, 1px `var(--color-border)` border, radius `var(--radius-md)`, padding `var(--space-2)` `var(--space-3)`, `--text-base`.
 - Label above the field in `--text-sm`, weight 500. Help text below in `var(--color-text-muted)`.
-- **Focus:** border `var(--color-primary)` plus the focus ring. **Error:** border and message in `var(--color-danger)`.
+- **Focus:** border `var(--color-link)` plus the focus ring. **Error:** border and message in `var(--color-danger)`.
 
 ### Card
 
@@ -277,12 +280,12 @@ Mobile-first: write base styles for small screens, then add `min-width` media qu
 ### Navigation bar
 
 - Background `var(--color-bg)` with a 1px `var(--color-border)` bottom border.
-- Links in `var(--color-text-muted)`, `var(--color-text)` on hover, `var(--color-primary)` for the current page (also mark it with `aria-current="page"`).
+- Links in `var(--color-text-muted)`, `var(--color-text)` on hover, `var(--color-link)` for the current page (also mark it with `aria-current="page"`).
 
 ## Accessibility
 
 - Meet **WCAG 2.2 AA**.
-- **Focus:** 2px solid outline in the primary role color, offset 2px. Show it on `:focus-visible`; never remove outlines without a replacement.
+- **Focus:** 2px solid outline in the link role color, offset 2px. Show it on `:focus-visible`; never remove outlines without a replacement.
 - Interactive targets are at least 24×24px.
 - Respect `prefers-reduced-motion`: wrap non-essential animation in `@media (prefers-reduced-motion: no-preference)`.
 - Use semantic HTML first; add ARIA only when no native element fits.

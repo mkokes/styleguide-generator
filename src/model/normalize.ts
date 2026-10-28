@@ -1,5 +1,5 @@
 import { defaultGuide, emptyRules } from "./defaults";
-import { RULE_SECTIONS, type Guide } from "./types";
+import { RULE_SECTIONS, type Guide, type Roles } from "./types";
 
 const isObject = (x: unknown): x is Record<string, unknown> =>
   typeof x === "object" && x !== null && !Array.isArray(x);
@@ -36,8 +36,8 @@ export function normalizeGuide(raw: unknown): Guide {
       ...colors,
       base: { ...d.colors.base, ...colors.base },
       roles: {
-        light: { ...d.colors.roles.light, ...rawRoles.light },
-        dark: { ...d.colors.roles.dark, ...rawRoles.dark },
+        light: withLink(d.colors.roles.light, rawRoles.light),
+        dark: withLink(d.colors.roles.dark, rawRoles.dark),
       },
     },
     typography: merge("typography"),
@@ -56,4 +56,9 @@ function safeLogo(logo: Guide["logo"]): Guide["logo"] {
   if (typeof logo.previewDataUrl === "string" && SAFE_IMAGE.test(logo.previewDataUrl)) return logo;
   const { previewDataUrl: _, previewFileName: __, ...rest } = logo;
   return rest;
+}
+
+/** Guides saved before the `link` role existed used `primary` for links, so carry that over. */
+function withLink(defaults: Roles, raw: Partial<Roles> = {}): Roles {
+  return { ...defaults, link: raw.primary ?? defaults.link, ...raw };
 }

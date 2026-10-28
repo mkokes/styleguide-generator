@@ -121,6 +121,7 @@ export default {
           "border": "var(--color-border)",
           "primary": "var(--color-primary)",
           "on-primary": "var(--color-on-primary)",
+          "link": "var(--color-link)",
           "success": "var(--color-success)",
           "warning": "var(--color-warning)",
           "danger": "var(--color-danger)",

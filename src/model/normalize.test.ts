@@ -52,3 +52,9 @@ test("only inline base64 images survive as the logo preview", () => {
     expect(withLogo(bad)).not.toHaveProperty("previewFileName");
   }
 });
+
+test("guides saved before the link role inherit it from primary", () => {
+  const g = normalizeGuide({ basics: {}, colors: { roles: { light: { primary: "accent-700" } } } });
+  expect(g.colors.roles.light.link).toBe("accent-700");
+  expect(g.colors.roles.dark.link).toBe("primary-300");
+});

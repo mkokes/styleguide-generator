@@ -2,6 +2,7 @@
 
 ## 0.1.0 — Unreleased
 
+- Separate `link` role (links, focus rings, current nav item) from the `primary` fill, so very light brand colors can be used as button fills while links stay readable. Older guides inherit `link` from `primary`.
 - First version of the styleguide wizard: basics and voice, color (OKLCH scales, light/dark semantic roles, WCAG contrast with suggested fixes), typography (Google Fonts picker and modular type scale), spacing/radius/elevation/motion/breakpoints, logo and imagery, iconography, and components and accessibility.
 - Exports an agent-oriented `STYLEGUIDE.md`, `tokens.css`, a Tailwind v4 or v3 theme, and DTCG `tokens.json`. Files can be copied or downloaded one at a time or as a `.zip`.
 - Live sample-page preview with a light/dark toggle.

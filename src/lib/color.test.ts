@@ -59,7 +59,7 @@ test("requiredRatio depends on kind and target", () => {
 
 test("default guide passes AA in both modes", () => {
   const checks = checkContrast(createGuide());
-  expect(checks).toHaveLength(20);
+  expect(checks).toHaveLength(22);
   expect(checks.every((c) => c.pass && c.suggestion === null)).toBe(true);
 });
 

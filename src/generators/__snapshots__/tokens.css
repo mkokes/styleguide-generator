@@ -160,6 +160,7 @@
   --color-border: var(--color-neutral-200);
   --color-primary: var(--color-primary-600);
   --color-on-primary: #ffffff;
+  --color-link: var(--color-primary-600);
   --color-success: var(--color-success-700);
   --color-warning: var(--color-warning-700);
   --color-danger: var(--color-danger-600);
@@ -174,6 +175,7 @@
   --color-border: var(--color-neutral-800);
   --color-primary: var(--color-primary-400);
   --color-on-primary: var(--color-neutral-950);
+  --color-link: var(--color-primary-300);
   --color-success: var(--color-success-400);
   --color-warning: var(--color-warning-400);
   --color-danger: var(--color-danger-400);
@@ -189,6 +191,7 @@
     --color-border: var(--color-neutral-800);
     --color-primary: var(--color-primary-400);
     --color-on-primary: var(--color-neutral-950);
+    --color-link: var(--color-primary-300);
     --color-success: var(--color-success-400);
     --color-warning: var(--color-warning-400);
     --color-danger: var(--color-danger-400);

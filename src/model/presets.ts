@@ -128,8 +128,18 @@ export const PRESETS: Preset[] = [
         ...g.colors,
         base: { ...g.colors.base, primary: "#18181B", neutral: "#71717A" },
         roles: {
-          light: { ...g.colors.roles.light, primary: "primary-950", onPrimary: "white" },
-          dark: { ...g.colors.roles.dark, primary: "primary-50", onPrimary: "primary-950" },
+          light: {
+            ...g.colors.roles.light,
+            primary: "primary-950",
+            onPrimary: "white",
+            link: "primary-950",
+          },
+          dark: {
+            ...g.colors.roles.dark,
+            primary: "primary-50",
+            onPrimary: "primary-950",
+            link: "primary-50",
+          },
         },
       },
       typography: {

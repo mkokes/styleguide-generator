@@ -59,7 +59,7 @@
   margin: 0 0 var(--space-3, 12px);
 }
 .sgp a {
-  color: var(--color-primary);
+  color: var(--color-link);
 }
 .sgp small,
 .sgp-muted {
@@ -97,7 +97,7 @@
   color: var(--color-text);
 }
 .sgp-nav nav a[aria-current="page"] {
-  color: var(--color-primary);
+  color: var(--color-link);
 }
 
 .sgp-hero,
@@ -134,7 +134,7 @@
 }
 .sgp-btn:focus-visible,
 .sgp-input:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-link);
   outline-offset: 2px;
 }
 .sgp-btn:disabled {
