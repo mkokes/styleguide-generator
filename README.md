@@ -26,18 +26,46 @@ Download the files one at a time, or together as a `.zip` that also includes you
 7. **Components & a11y**: WCAG target, focus style, reduced motion, and notes per component.
 8. **Review & export**: choose outputs, then preview, copy or download them.
 
-A live sample page beside the form is styled only by the generated variables, with its own light/dark toggle. You can start from scratch or from one of four presets (Corporate, Playful, Minimal, Editorial). Guides can be duplicated, exported or imported as project files, and shared as a compressed link.
+A live sample page beside the form is styled only by the generated variables, with its own light/dark toggle. You can start from scratch or from one of four presets (Corporate, Playful, Minimal, Editorial). Guides can be duplicated, exported or imported as project files (`.styleguide.json`), and shared as a compressed link. The app itself is an installable PWA with a light, dark, or system theme.
+
+## Tech stack
+
+- React 19, TypeScript 7, Vite 8, Node 22
+- UI & routing: Ant Design 6 (`antd`), `@ant-design/icons`, `react-router-dom` (hash routing)
+- Color, packaging & sharing: `culori` (OKLCH scales & WCAG contrast), `fflate` (`.zip` export), `lz-string` (share URLs), `vite-plugin-pwa`
+- Tooling: Vitest (100% coverage thresholds), `oxlint`, `oxfmt`, `husky`
+
+## Project layout
+
+- `src/model/` — guide types, defaults, presets, and normalization
+- `src/lib/` — color scales/contrast, type scale, token mapping, storage, share links, project files, fonts catalog
+- `src/generators/` — `STYLEGUIDE.md`, CSS, Tailwind v4/v3, DTCG JSON, and `.zip` generators
+- `src/wizard/`, `src/steps/`, `src/components/`, `src/preview/`, `src/pages/` — React wizard, live sample page, and routes
+- `styleguide/` — vendored `mk-styleguide` tokens and guide for the app's own UI
+- `scripts/fetch-google-fonts.mjs` — refreshes the committed Google Fonts snapshot (`src/data/google-fonts.json`)
+
+See [AGENTS.md](AGENTS.md) for detailed file layout and conventions.
 
 ## Development
 
+No backend or custom environment variables are needed.
+
 ```bash
-npm ci
-npm run dev             # http://localhost:5173/styleguide-generator/
-npm test
-npm run build
+npm ci                  # install dependencies (Node 22)
+npm run dev             # Vite dev server at http://localhost:5173/styleguide-generator/
+npm test                # run tests once
+npm run test:coverage   # run tests with 100% coverage thresholds
+npm run lint            # oxlint
+npm run format          # oxfmt (write)
+npm run format:check    # check formatting
+npm run build           # typecheck (tsc -b) + production build to dist/
+npm run preview         # preview the production build locally
+npm run fonts           # refresh src/data/google-fonts.json from Google Fonts
 ```
 
-See [AGENTS.md](AGENTS.md) for project structure and conventions.
+## Deployment
+
+Pushes and pull requests to `main` run `.github/workflows/pages.yml` (lint, format check, 100% test coverage, and production build). Merges to `main` automatically publish `dist/` to GitHub Pages at **https://mkokes.github.io/styleguide-generator/**.
 
 ## License
 
